@@ -47,7 +47,13 @@ router.post('/signup', vaildateauthSignup, authController.createUser);
 // POST /auth/login
 router.post('/login', vaildateCredential, authController.login);
 
+// POST /auth/logout
+router.post('/logout', authController.logout);
+
 // POST /auth/me
 router.get('/me', jwtVerify.isAuth, authController.me);
+
+// POST /auth/csrf-token
+router.get('/csrf-token', authController.csrfToken);
 
 export default router;

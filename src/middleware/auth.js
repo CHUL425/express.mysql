@@ -10,16 +10,32 @@ const AUTH_ERROR   = { massge: 'Authentication Error'};
 export const isAuth = async (req, res, next) => {
   console.log('=========================================================================');
 
+  // 1. Cookie (for Browser)
+  // 2. Header (for Non-Browser Client)
+  
+  let token;
+
+  // check the header first
   const authHeader = req.get('Authorization');
   //console.log(`authHeader: [${authHeader}]`);
   //console.log(`authHeader.startsWith('Bearer'): [${authHeader.startsWith('Bearer')}]`);
+  if ((authHeader && authHeader.startsWith('Bearer'))) {
+    token = authHeader.split(' ')[1];
+    console.log(`authHeader.token`, token);
+  }
+ 
+  // if no token in the header, check the cookie
+  if (!token) {
+    token = req.cookies['token'];
+    console.log(`cookies.token`, token);
+  }
+  console.log(`middleware/auth.js token:`, token);
 
-  if (!(authHeader && authHeader.startsWith('Bearer'))) {
+  if (!token) {
     return res.status(401).json(AUTH_ERROR);
   }
-  //console.log(`통과 1`);
+  console.log(`통과 1`);
 
-  const token = authHeader.split(' ')[1];
   jwt.verify(
     token,
     config.jwt.secretKey,
@@ -41,7 +57,10 @@ export const isAuth = async (req, res, next) => {
       // console.log(`통과 3`);
 
       req.userId = user.id; // req.customData
+      req.token  = token  ;
+
       console.log('middleware/authHeader.js isAuth:req.userId', req.userId);
+      console.log('middleware/authHeader.js isAuth:req.token' , req.token );
 
       // console.log(`통과 4`);
       next();

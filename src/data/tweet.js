@@ -17,15 +17,14 @@ export async function getAll() {
        FROM TWEETS AS A JOIN USERS AS B 
          ON A.USERID = B.ID
      ORDER BY A.CREATEDAT DESC
-    `
-  )
-  .then((result) => {
-    console.log('result:', result);
-    console.log('result[0]:', result[0]);
-    console.log('result[0][0]:', result[0][0]);
-
-    return result[0];
-  }
+    `)
+    .then((result) => {
+      console.log('result:', result);
+      console.log('result[0]:', result[0]);
+      console.log('result[0][0]:', result[0][0]);
+  
+      return result[0];
+    }
   );
 }
 
@@ -47,8 +46,8 @@ export async function getAllByUsername(username) {
          ON A.USERID = B.ID
       WHERE B.USERNAME = ?
      ORDER BY A.CREATEDAT DESC
-    `, [username]
-  ).then((result) => {
+    `, [username])
+    .then((result) => {
       console.log('result:', result);
       console.log('result[0]:', result[0]);
       console.log('result[0][0]:', result[0][0]);
@@ -76,8 +75,8 @@ export async function getById(id) {
          ON A.USERID = B.ID
       WHERE A.ID = ?
      ORDER BY A.CREATEDAT DESC
-    `, [id]
-  ).then((result) => {
+    `, [id])
+    .then((result) => {
       console.log('result:', result);
       console.log('result[0]:', result[0]);
       console.log('result[0][0]:', result[0][0]);

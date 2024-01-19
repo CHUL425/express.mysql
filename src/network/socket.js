@@ -6,7 +6,7 @@ class Socket {
   constructor(expressServer) {
     this.io = new Server(expressServer, {
       cors: {
-        origin: '*',
+        origin: config.cors.allowedOrigin,
       },
     });
 
